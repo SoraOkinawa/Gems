@@ -33,6 +33,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -58,6 +60,9 @@ import simbad.sim.World;
  *  
  */
 public class Simbad extends JFrame implements ActionListener, KeyListener, FocusListener {
+	
+	private ArrayList<Integer> pressed = new ArrayList<Integer>();
+	private int rotate = 0;
 
 	private static final long serialVersionUID = 1L;
 	
@@ -78,7 +83,7 @@ public class Simbad extends JFrame implements ActionListener, KeyListener, Focus
     
     Joueur j1;
     Joueur j2;
-    int deplaCptH, deplaCptB; //Compteur pour le déplacement latéral
+    int deplaCptH, deplaCptB; //Compteur pour le dé§±lacement laté§»al
     
     /** Construct Simbad application with the given environement description */
     public Simbad(EnvironmentDescription ed, boolean backgroundMode) {
@@ -94,7 +99,7 @@ public class Simbad extends JFrame implements ActionListener, KeyListener, Focus
         desktop.addKeyListener(this);
         desktop.addFocusListener(this);
        
-        //Ajout des robots à la classe
+        //Ajout des robots ï¿½ la classe
         j1 = (Joueur) simulator.getAgentList().get(0);
         j2 = (Joueur) simulator.getAgentList().get(1);
         
@@ -244,16 +249,18 @@ public class Simbad extends JFrame implements ActionListener, KeyListener, Focus
     }
 
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int code = e.getKeyCode();
-
-		
-		
-		switch (code) {
+    
+    @Override
+    public synchronized void keyPressed(KeyEvent e) {
+        pressed.add(e.getKeyCode());
+        
+        if (this.pressed.size() == 1)
+        {
+	        switch (pressed.get(0)) {
 			case KeyEvent.VK_Z:
 				if (deplaCptH == 0) {
 					j1.rotateY(Math.PI/2);
+					rotate = 1;
 					deplaCptH++;
 				}
 				j1.setTranslationalVelocity(5);
@@ -266,6 +273,7 @@ public class Simbad extends JFrame implements ActionListener, KeyListener, Focus
 			case KeyEvent.VK_S:
 				if (deplaCptB == 0) {
 					j1.rotateY(-Math.PI/2);
+					rotate = 2;
 					deplaCptB++;
 				}
 				j1.setTranslationalVelocity(5);
@@ -277,47 +285,61 @@ public class Simbad extends JFrame implements ActionListener, KeyListener, Focus
 								
 			default:
 				break;
-		}
-	}
+	        }
+        }else if (pressed.size() > 1) {
+        	if (pressed.get(0) == KeyEvent.VK_Z && pressed.get(1) == KeyEvent.VK_Q ||
+        			pressed.get(1) == KeyEvent.VK_Z && pressed.get(0) == KeyEvent.VK_Q)
+        	{
+        		
+        		return;
+        	}
+        	
+        	if (pressed.get(0) == KeyEvent.VK_Z && pressed.get(1) == KeyEvent.VK_D ||
+        			pressed.get(1) == KeyEvent.VK_Z && pressed.get(0) == KeyEvent.VK_D)
+        	{
+        		return;
+        	}
+        	
+        	if (pressed.get(0) == KeyEvent.VK_S && pressed.get(1) == KeyEvent.VK_Q ||
+        			pressed.get(1) == KeyEvent.VK_S && pressed.get(0) == KeyEvent.VK_Q)
+        	{
+        		return;
+        	}
+        	
+        	if (pressed.get(0) == KeyEvent.VK_S && pressed.get(1) == KeyEvent.VK_D ||
+        			pressed.get(1) == KeyEvent.VK_S && pressed.get(0) == KeyEvent.VK_D)
+        	{
+        		return;
+        	}
+        } 
+    }
 
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		int code = e.getKeyCode();
-		
-		switch (code) {
-		case KeyEvent.VK_D:
-			j1.setTranslationalVelocity(0);
-			break;
-		
-		case KeyEvent.VK_Z:
-			j1.setTranslationalVelocity(0);
+    public synchronized void keyReleased(KeyEvent e) 
+	{
+			
+		j1.setTranslationalVelocity(0);
+		if ( rotate == 1)
+		{
 			j1.rotateY(-Math.PI/2);
 			deplaCptH = 0;
-			break;
-			
-		case KeyEvent.VK_S:
-			j1.setTranslationalVelocity(0);
+			rotate = 0;
+		}
+		
+		if (rotate == 2)
+		{
 			j1.rotateY(Math.PI/2);
 			deplaCptB = 0;
-			break;
-			
-		case KeyEvent.VK_Q:
-			j1.setTranslationalVelocity(0);
-			break;
-			
-		default:
-			break;
+			rotate = 0;
 		}
-	}
 
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		pressed.clear();
 		
 	}
+
+    @Override
+    public void keyTyped(KeyEvent e) {/* Not used */ }
 
 
 	@Override
