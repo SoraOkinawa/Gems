@@ -27,6 +27,10 @@ package simbad.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import java.util.ArrayList;
 
@@ -38,6 +42,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import gems.Joueur;
 import simbad.demo.DemoManager;
 import simbad.sim.Agent;
 import simbad.sim.EnvironmentDescription;
@@ -50,7 +55,7 @@ import simbad.sim.World;
  * This is the Simbad application mainframe.
  *  
  */
-public class Simbad extends JFrame implements ActionListener {
+public class Simbad extends JFrame implements ActionListener, KeyListener, FocusListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -69,7 +74,8 @@ public class Simbad extends JFrame implements ActionListener {
    
     static  Simbad simbadInstance=null;
     
-    
+    Joueur j1;
+    Joueur j2;
     
     /** Construct Simbad application with the given environement description */
     public Simbad(EnvironmentDescription ed, boolean backgroundMode) {
@@ -82,8 +88,13 @@ public class Simbad extends JFrame implements ActionListener {
         createGUI();
         start(ed);
         setVisible(true);
+        desktop.addKeyListener(this);
+        desktop.addFocusListener(this);
        
-          }
+        //Ajout des robots à la classe
+        j1 = (Joueur) simulator.getAgentList().get(0);
+        j2 = (Joueur) simulator.getAgentList().get(1);
+    }
  
 
     /** Create the main GUI. Only called once.*/
@@ -224,6 +235,83 @@ public class Simbad extends JFrame implements ActionListener {
     public static Simbad getSimbadInstance() {
         return simbadInstance;
     }
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int code = e.getKeyCode();
+		
+		switch (code) {
+		case KeyEvent.VK_D:
+			j1.setTranslationalVelocity(3);
+			break;
+
+		case KeyEvent.VK_Z:
+			j1.setRotationalVelocity(3);
+			break;
+			
+		case KeyEvent.VK_S:
+			j1.setRotationalVelocity(-3);
+			break;
+			
+		case KeyEvent.VK_Q:
+			j1.setRotationalVelocity(-3);
+			break;
+			
+		default:
+			break;
+		}
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int code = e.getKeyCode();
+		
+		switch (code) {
+		case KeyEvent.VK_D:
+			j1.setTranslationalVelocity(0);
+			break;
+		
+		case KeyEvent.VK_Z:
+			j1.setRotationalVelocity(0);
+			break;
+			
+		case KeyEvent.VK_S:
+			j1.setRotationalVelocity(0);
+			break;
+			
+		case KeyEvent.VK_Q:
+			j1.setRotationalVelocity(0);
+			break;
+			
+		default:
+			break;
+		}
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void focusGained(FocusEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void focusLost(FocusEvent arg0) {
+		// TODO Auto-generated method stub
+		desktop.requestFocus();
+	}
 
 
 

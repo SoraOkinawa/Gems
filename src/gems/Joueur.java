@@ -12,9 +12,6 @@ public class Joueur extends Agent {
 	public void initBehavior() {}
 	
 	public void performBehavior() {
-		setTranslationalVelocity(0.5);
-		// changer l'angle fréquemment
-		if ((getCounter() % 100)==0)
-			setRotationalVelocity(Math.PI/2 * (0.5 - Math.random()));
+		
 	}
 }
