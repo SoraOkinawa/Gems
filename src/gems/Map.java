@@ -12,6 +12,10 @@ import simbad.sim.Wall;
 
 public class Map extends EnvironmentDescription{
 	public Map() {
+		//Couleurs
+		Color3f rouge = new Color3f(1f, 0f, 0f);
+		Color3f jaune = new Color3f(1f, 1f, 0f);
+		
 		//J1
 		Joueur j1 = new Joueur(new Vector3d(-7, 0, 2),"J1");
 		add(j1);
@@ -45,40 +49,40 @@ public class Map extends EnvironmentDescription{
 		add(murHaut);
 		
 		//Mur Milieu
-		Wall murMilieu = new Wall(new Vector3d(0, 0, 0), 11, 1, this);
+		Wall murMilieu = new Wall(new Vector3d(0, 0, 0), 10.5f, 1, this);
 		murMilieu.rotate90(1);
 		add(murMilieu);
 		
 		//Buts Gauche
 		//Milieu
-		Arch a1 = new Arch(new Vector3d(-9, 0, 0), this);
-		a1.rotate90(1);
-		add(a1);
+		Box b1 = new Box(new Vector3d(-9.5, 0, 0), new Vector3f(5, 1, 0.5f), this, rouge);
+		b1.rotate90(1);
+		add(b1);
 		
 		//Haut
-		Arch a2 = new Arch(new Vector3d(-9, 0, 3), this);
-		a2.rotate90(1);
-		add(a2);
+		Box b2 = new Box(new Vector3d(-9.5, 0, 3.75), new Vector3f(2.5f, 1, 0.5f), this, jaune);
+		b2.rotate90(1);
+		add(b2);
 		
 		//Bas
-		Arch a3 = new Arch(new Vector3d(-9, 0, -3), this);
-		a3.rotate90(1);
-		add(a3);
+		Box b3 = new Box(new Vector3d(-9.5, 0, -3.75), new Vector3f(2.5f, 1, 0.5f), this, jaune);
+		b3.rotate90(1);
+		add(b3);
 		
 		//Buts Droite
 		//Milieu
-		Arch a4 = new Arch(new Vector3d(9, 0, 0), this);
-		a4.rotate90(1);
-		add(a4);
+		Box b4 = new Box(new Vector3d(9.5, 0, 0), new Vector3f(5, 1, 0.5f), this, rouge);
+		b4.rotate90(1);
+		add(b4);
 		
 		//Haut
-		Arch a5 = new Arch(new Vector3d(9, 0, 3), this);
-		a5.rotate90(1);
-		add(a5);
+		Box b5 = new Box(new Vector3d(9.5, 0, 3.75), new Vector3f(2.5f, 1, 0.5f), this, jaune);
+		b5.rotate90(1);
+		add(b5);
 		
 		//Bas
-		Arch a6 = new Arch(new Vector3d(9, 0, -3), this);
-		a6.rotate90(1);
-		add(a6);	
+		Box b6 = new Box(new Vector3d(9.5, 0, -3.75), new Vector3f(2.5f, 1, 0.5f), this, jaune);
+		b6.rotate90(1);
+		add(b6);
 	}
 }
