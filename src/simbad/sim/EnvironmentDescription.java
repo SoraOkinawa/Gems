@@ -98,7 +98,7 @@ public class EnvironmentDescription {
         backgroundColor = ligthgray;
         hasAxis = true;
         normalsStyle = NORMALS_SIMPLE;
-        worldViewPoint = World.VIEW_FROM_EAST;
+        worldViewPoint = World.VIEW_FROM_TOP;
         usePhysics = false;
         
 

@@ -151,7 +151,6 @@ public class SimulatorControlGUI extends JPanel implements ActionListener {
             simulator.setVirtualTimeFactor(50.0f);
         } else if (action.equals("step1")) {
             simulator.performSimulationStep();
-       
         }
  
     }

@@ -1,5 +1,6 @@
 package gems;
 
+import javax.vecmath.Color3f;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
@@ -12,7 +13,7 @@ import simbad.sim.Wall;
 public class Map extends EnvironmentDescription{
 	public Map() {
 		//J1
-		Joueur j1 = new Joueur(new Vector3d(-5, 0, 0),"J1");
+		Joueur j1 = new Joueur(new Vector3d(-7, 0, 2),"J1");
 		add(j1);
 		
 		//J2
@@ -20,8 +21,10 @@ public class Map extends EnvironmentDescription{
 		add(j2);
 		
 		//Balle
-		BallAgent balle = new BallAgent(new Vector3d(-4, 0, 0), "balle", 0.3f);
+		Color3f c = new Color3f(0.6f, 0.0f, 0.0f);
+		BallAgent balle = new BallAgent(new Vector3d(-8, 0, 2), "balle", c, 0.25f, 0.25f);
 		add(balle);
+		setUsePhysics(true);
 		
 		//Mur Droit
 		Wall murDroit = new Wall(new Vector3d(10, 0, 0), 11, 1, this);
@@ -76,8 +79,6 @@ public class Map extends EnvironmentDescription{
 		//Bas
 		Arch a6 = new Arch(new Vector3d(9, 0, -3), this);
 		a6.rotate90(1);
-		add(a6);
-		
-		
+		add(a6);	
 	}
 }
