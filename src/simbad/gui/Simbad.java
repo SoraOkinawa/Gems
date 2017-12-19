@@ -41,6 +41,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
 
 import gems.Joueur;
 import simbad.demo.DemoManager;
@@ -76,6 +78,7 @@ public class Simbad extends JFrame implements ActionListener, KeyListener, Focus
     
     Joueur j1;
     Joueur j2;
+    int deplaCptH, deplaCptB; //Compteur pour le déplacement latéral
     
     /** Construct Simbad application with the given environement description */
     public Simbad(EnvironmentDescription ed, boolean backgroundMode) {
@@ -94,6 +97,10 @@ public class Simbad extends JFrame implements ActionListener, KeyListener, Focus
         //Ajout des robots à la classe
         j1 = (Joueur) simulator.getAgentList().get(0);
         j2 = (Joueur) simulator.getAgentList().get(1);
+        
+        //Initialisation du compteur
+        deplaCptH = 0;
+        deplaCptB = 0;
     }
  
 
@@ -239,28 +246,37 @@ public class Simbad extends JFrame implements ActionListener, KeyListener, Focus
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		int code = e.getKeyCode();
+
+		
 		
 		switch (code) {
-		case KeyEvent.VK_D:
-			j1.setTranslationalVelocity(3);
-			break;
-
-		case KeyEvent.VK_Z:
-			j1.setRotationalVelocity(3);
-			break;
-			
-		case KeyEvent.VK_S:
-			j1.setRotationalVelocity(-3);
-			break;
-			
-		case KeyEvent.VK_Q:
-			j1.setRotationalVelocity(-3);
-			break;
-			
-		default:
-			break;
+			case KeyEvent.VK_Z:
+				if (deplaCptH == 0) {
+					j1.rotateY(Math.PI/2);
+					deplaCptH++;
+				}
+				j1.setTranslationalVelocity(5);
+				break;
+				
+			case KeyEvent.VK_Q:
+				j1.setTranslationalVelocity(-5);
+				break;
+				
+			case KeyEvent.VK_S:
+				if (deplaCptB == 0) {
+					j1.rotateY(-Math.PI/2);
+					deplaCptB++;
+				}
+				j1.setTranslationalVelocity(5);
+				break;
+				
+			case KeyEvent.VK_D:
+				j1.setTranslationalVelocity(5);
+				break;
+								
+			default:
+				break;
 		}
 	}
 
@@ -276,15 +292,19 @@ public class Simbad extends JFrame implements ActionListener, KeyListener, Focus
 			break;
 		
 		case KeyEvent.VK_Z:
-			j1.setRotationalVelocity(0);
+			j1.setTranslationalVelocity(0);
+			j1.rotateY(-Math.PI/2);
+			deplaCptH = 0;
 			break;
 			
 		case KeyEvent.VK_S:
-			j1.setRotationalVelocity(0);
+			j1.setTranslationalVelocity(0);
+			j1.rotateY(Math.PI/2);
+			deplaCptB = 0;
 			break;
 			
 		case KeyEvent.VK_Q:
-			j1.setRotationalVelocity(0);
+			j1.setTranslationalVelocity(0);
 			break;
 			
 		default:
