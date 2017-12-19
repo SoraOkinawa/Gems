@@ -2,7 +2,8 @@
 Gems - A game created for a school project.
 
 ## 16/12/2017 - 23h30
-Début du projet, création des premières classes
+DÃ©but du projet, crÃ©ation des premiÃ¨res classes
 
 ##TODO :
 Inputs au clavier
+mur invisible que sur les joueurs ou un dÃ©limiteur 
