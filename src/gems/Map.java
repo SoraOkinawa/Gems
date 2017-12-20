@@ -48,11 +48,6 @@ public class Map extends EnvironmentDescription{
 		Wall murHaut = new Wall(new Vector3d(0, 0, -5), 19, 1, this);
 		add(murHaut);
 		
-		//Mur Milieu
-		Wall murMilieu = new Wall(new Vector3d(0, 0, 0), 10.5f, 1, this);
-		murMilieu.rotate90(1);
-		add(murMilieu);
-		
 		//Buts Gauche
 		//Milieu
 		Box b1 = new Box(new Vector3d(-9.5, 0, 0), new Vector3f(5, 1, 0.5f), this, rouge);

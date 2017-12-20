@@ -359,8 +359,4 @@ public class Agent extends SimpleAgent {
       "odometer      \t= " + format.format(odometer) + " m\n";
           return s;
    }
-
-
-    
-
 }

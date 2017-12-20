@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.media.j3d.Transform3D;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -83,7 +84,7 @@ public class Simbad extends JFrame implements ActionListener, KeyListener, Focus
     
     Joueur j1;
     Joueur j2;
-    int deplaCptH, deplaCptB; //Compteur pour le d駱lacement lat駻al
+    int deplaCptH1, deplaCptB1, deplaCptH2, deplaCptB2; //Compteur pour le d駱lacement lat駻al
     
     /** Construct Simbad application with the given environement description */
     public Simbad(EnvironmentDescription ed, boolean backgroundMode) {
@@ -104,8 +105,10 @@ public class Simbad extends JFrame implements ActionListener, KeyListener, Focus
         j2 = (Joueur) simulator.getAgentList().get(1);
         
         //Initialisation du compteur
-        deplaCptH = 0;
-        deplaCptB = 0;
+        deplaCptH1 = 0;
+        deplaCptB1 = 0;
+        deplaCptH2 = 0;
+        deplaCptB2 = 0;
     }
  
 
@@ -252,90 +255,54 @@ public class Simbad extends JFrame implements ActionListener, KeyListener, Focus
     
     @Override
     public synchronized void keyPressed(KeyEvent e) {
-        pressed.add(e.getKeyCode());
+        int code = e.getKeyCode();
         
-        if (this.pressed.size() == 1)
-        {
-	        switch (pressed.get(0)) {
-			case KeyEvent.VK_Z:
-				if (deplaCptH == 0) {
-					j1.rotateY(Math.PI/2);
-					rotate = 1;
-					deplaCptH++;
-				}
-				j1.setTranslationalVelocity(5);
-				break;
-				
-			case KeyEvent.VK_Q:
-				j1.setTranslationalVelocity(-5);
-				break;
-				
-			case KeyEvent.VK_S:
-				if (deplaCptB == 0) {
-					j1.rotateY(-Math.PI/2);
-					rotate = 2;
-					deplaCptB++;
-				}
-				j1.setTranslationalVelocity(5);
-				break;
-				
-			case KeyEvent.VK_D:
-				j1.setTranslationalVelocity(5);
-				break;
-								
-			default:
-				break;
-	        }
-        }else if (pressed.size() > 1) {
-        	if (pressed.get(0) == KeyEvent.VK_Z && pressed.get(1) == KeyEvent.VK_Q ||
-        			pressed.get(1) == KeyEvent.VK_Z && pressed.get(0) == KeyEvent.VK_Q)
-        	{
+        switch (code) {
+        	case KeyEvent.VK_Z:
+        		j1.setTranslationalVelocity(5);
+        		break;
+        	
+        	case KeyEvent.VK_S:
+        		j1.setTranslationalVelocity(-5);
+        		break;
         		
-        		return;
-        	}
+        	case KeyEvent.VK_Q:
+        		j1.setRotationalVelocity(5);
+        		break;
         	
-        	if (pressed.get(0) == KeyEvent.VK_Z && pressed.get(1) == KeyEvent.VK_D ||
-        			pressed.get(1) == KeyEvent.VK_Z && pressed.get(0) == KeyEvent.VK_D)
-        	{
-        		return;
-        	}
+        	case KeyEvent.VK_D:
+        		j1.setRotationalVelocity(-5);
+        		break;
+        		
+        	case KeyEvent.VK_UP:
+        		j2.setTranslationalVelocity(5);
+        		break;
         	
-        	if (pressed.get(0) == KeyEvent.VK_S && pressed.get(1) == KeyEvent.VK_Q ||
-        			pressed.get(1) == KeyEvent.VK_S && pressed.get(0) == KeyEvent.VK_Q)
-        	{
-        		return;
-        	}
+        	case KeyEvent.VK_DOWN:
+        		j2.setTranslationalVelocity(-5);
+        		break;
         	
-        	if (pressed.get(0) == KeyEvent.VK_S && pressed.get(1) == KeyEvent.VK_D ||
-        			pressed.get(1) == KeyEvent.VK_S && pressed.get(0) == KeyEvent.VK_D)
-        	{
-        		return;
-        	}
-        } 
+        	case KeyEvent.VK_LEFT:
+        		j2.setRotationalVelocity(5);
+        		break;
+        	
+        	case KeyEvent.VK_RIGHT:
+        		j2.setRotationalVelocity(-5);
+        		break;
+        }
     }
 
 
 	@Override
     public synchronized void keyReleased(KeyEvent e) 
 	{
-			
-		j1.setTranslationalVelocity(0);
-		if ( rotate == 1)
-		{
-			j1.rotateY(-Math.PI/2);
-			deplaCptH = 0;
-			rotate = 0;
-		}
+		int val = e.getKeyCode();
 		
-		if (rotate == 2)
-		{
-			j1.rotateY(Math.PI/2);
-			deplaCptB = 0;
-			rotate = 0;
-		}
-
-		pressed.clear();
+		if (val == KeyEvent.VK_Z || val == KeyEvent.VK_S) j1.setTranslationalVelocity(0);
+		if (val == KeyEvent.VK_Q || val == KeyEvent.VK_D) j1.setRotationalVelocity(0);
 		
+		if (val == KeyEvent.VK_UP || val == KeyEvent.VK_DOWN) j2.setTranslationalVelocity(0);
+		if (val == KeyEvent.VK_LEFT || val == KeyEvent.VK_RIGHT) j2.setRotationalVelocity(0);
 	}
 
     @Override
